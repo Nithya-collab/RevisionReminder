@@ -1,0 +1,63 @@
+<%- include('partials/header', { user: user }) %>
+<h1>Daily Revision Reminder</h1>
+
+<section>
+    <h2>Add New Topic</h2>
+    <form action="/topics" method="POST" style="display: flex; gap: 10px; align-items: flex-end;">
+        <div class="form-group" style="flex: 2;">
+            <label>Topic Name</label>
+            <input type="text" name="name" placeholder="e.g. Percentages" required>
+        </div>
+        <div class="form-group" style="flex: 1;">
+            <label>Date Learned</label>
+            <input type="date" name="dateLearned" value="<%= new Date().toISOString().split('T')[0] %>">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn">Add Topic</button>
+        </div>
+    </form>
+</section>
+
+<hr>
+
+<section>
+    <h2>Due Today</h2>
+    <% if (dueTopics.length > 0) { %>
+        <ul class="due-list">
+            <% dueTopics.forEach(topic => { %>
+                <li class="topic-item">
+                    <div>
+                        <strong><%= topic.name %></strong> 
+                        <span style="color: #666;">(Revision Day <%= topic.dueInterval %>)</span>
+                    </div>
+                    <form action="/topics/<%= topic.id %>/complete" method="POST">
+                        <input type="hidden" name="interval" value="<%= topic.dueInterval %>">
+                        <button type="submit" class="btn btn-success">Mark Completed</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No revision scheduled today. Stay consistent.</p>
+    <% } %>
+</section>
+
+<hr>
+
+<section>
+    <h2>All Topics</h2>
+    <% if (topics.length > 0) { %>
+        <ul class="topic-list">
+            <% topics.forEach(topic => { %>
+                <li class="topic-item">
+                    <span><%= topic.name %> <small>(Learned: <%= topic.dateLearned %>)</small></span>
+                    <span>Intervals Done: <%= topic.completedIntervals.join(', ') || 'None' %></span>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>You haven't added any topics yet.</p>
+    <% } %>
+</section>
+
+<%- include('partials/footer') %>
