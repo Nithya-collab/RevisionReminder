@@ -3,17 +3,35 @@ const { readDb } = require('./dbService');
 const { getDueTopics } = require('./topicService');
 const { sendRevisionEmail } = require('./emailService');
 
+// const initCron = () => {
+//     // 10:00 AM
+//     cron.schedule('0 10 * * *', async () => {
+//         console.log('Running 10:00 AM Revision Cron');
+//         await sendReminders();
+//     });
+
+//     // 3:00 PM
+//     cron.schedule('0 15 * * *', async () => {
+//         console.log('Running 3:00 PM Revision Cron');
+//         await sendReminders();
+//     });
+// };
+
 const initCron = () => {
-    // 10:00 AM
+    // 10:00 AM IST
     cron.schedule('0 10 * * *', async () => {
         console.log('Running 10:00 AM Revision Cron');
         await sendReminders();
+    }, {
+        timezone: "Asia/Kolkata"
     });
 
-    // 3:00 PM
+    // 3:00 PM IST
     cron.schedule('0 15 * * *', async () => {
         console.log('Running 3:00 PM Revision Cron');
         await sendReminders();
+    }, {
+        timezone: "Asia/Kolkata"
     });
 };
 
