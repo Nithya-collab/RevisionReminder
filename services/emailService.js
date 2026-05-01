@@ -1,15 +1,23 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: process.env.EMAIL_USER,
+//         pass: process.env.EMAIL_PASS
+//     },
+//      tls: {
+//         family: 4   //  FORCE IPv4 (this fixes ENETUNREACH)
+//     }
+// });
+
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    },
-     tls: {
-        family: 4   //  FORCE IPv4 (this fixes ENETUNREACH)
-    }
+  service: 'gmail', 
+  auth: {
+    user: process.env.EMAIL_USER, 
+    pass: process.env.EMAIL_PASS  // Your 16-character App Password
+  }
 });
 
 const sendRevisionEmail = (to, topics) => {
