@@ -6,6 +6,9 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+    },
+     tls: {
+        family: 4   //  FORCE IPv4 (this fixes ENETUNREACH)
     }
 });
 
