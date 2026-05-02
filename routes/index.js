@@ -70,4 +70,17 @@ router.get('/test-email', async (req, res) => {
 });
 
 
+// Public route for cron-job.org to trigger the reminders
+router.get('/cron-trigger', async (req, res) => {
+    try {
+        // You can manually trigger your cron logic here if needed
+        const { checkAndSendReminders } = require('../services/cronService');
+        await checkAndSendReminders();
+        res.status(200).send("Cron triggered successfully");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Cron trigger failed");
+    }
+});
+
 module.exports = router;
